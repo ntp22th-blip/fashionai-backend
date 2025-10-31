@@ -13,6 +13,7 @@ app = Flask(__name__, static_folder="../frontend", template_folder="../frontend"
 CORS(app)
 
 # Cho phép Flask-Dance hoạt động trên môi trường Render (HTTPS)
+app.config["PREFERRED_URL_SCHEME"] = "https" 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 # Secret key cho session Flask
@@ -203,4 +204,5 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     print(f"🌸 Fashion AI backend đang chạy trên cổng {port}")
     app.run(host="0.0.0.0", port=port)
+
 
