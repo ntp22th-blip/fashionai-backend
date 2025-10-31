@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory, redirect, url_for, session
 from flask_cors import CORS
 from flask_dance.contrib.google import make_google_blueprint, google
-from dotenv import load_dotenv
 import google.generativeai as genai
 import os, io, base64, json
 from PIL import Image
@@ -12,7 +11,9 @@ from colorthief import ColorThief
 # ==============================
 app = Flask(__name__, static_folder="../frontend", template_folder="../frontend")
 CORS(app)
-load_dotenv()
+
+# Cho phép Flask-Dance hoạt động trên môi trường Render (HTTPS)
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 # Secret key cho session Flask
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "fashionai_secret")
@@ -20,7 +21,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "fashionai_secret")
 # Cấu hình API key Gemini
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_KEY:
-    print("⚠️  LỖI: Không tìm thấy GEMINI_API_KEY trong file .env!")
+    print("⚠️  LỖI: Không tìm thấy GEMINI_API_KEY trong Render Environment!")
 else:
     genai.configure(api_key=GEMINI_KEY)
     print("✅ Đã tải GEMINI_API_KEY thành công!")
@@ -41,7 +42,7 @@ if GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET:
     app.register_blueprint(google_bp, url_prefix="/login")
     print("✅ Đã kích hoạt Google OAuth2 login")
 else:
-    print("⚠️  Chưa có GOOGLE_CLIENT_ID hoặc GOOGLE_CLIENT_SECRET trong .env")
+    print("⚠️  Chưa có GOOGLE_CLIENT_ID hoặc GOOGLE_CLIENT_SECRET trong Render Environment")
 
 # ==============================
 # 🎨 HÀM PHỤ
@@ -88,6 +89,7 @@ def google_login_success():
         "email": user_info.get("email"),
         "picture": user_info.get("picture")
     }
+    print(f"✅ Đăng nhập thành công: {user_info.get('email')}")
     return redirect("/")
 
 @app.route("/logout")
@@ -195,8 +197,9 @@ def outfits():
         return jsonify({"error": str(e)}), 500
 
 # ==============================
-# 🚀 CHẠY SERVER
+# 🚀 CHẠY SERVER (Render)
 # ==============================
 if __name__ == '__main__':
-    print("🌸 Fashion AI backend is running at: http://127.0.0.1:5000")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    print(f"🌸 Fashion AI backend đang chạy trên cổng {port}")
+    app.run(host="0.0.0.0", port=port)
