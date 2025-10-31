@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Coolmate",
+    "origin": "Việt Nam",
+    "style": "Nam tính, tối giản, năng động",
+    "material": "Cotton, thun lạnh, dry-fit",
+    "products": ["Áo thun basic", "Áo polo", "Quần short", "Áo khoác nhẹ"],
+    "price": "Phổ thông (150.000đ - 400.000đ)",
+    "url": "https://www.coolmate.me/"
+  },
+  {
+    "name": "Nosbyn",
+    "origin": "Việt Nam",
+    "style": "Nữ tính, tinh tế, mang hơi hướng Hàn Quốc",
+    "material": "Linen, cotton, satin",
+    "products": ["Đầm midi", "Chân váy", "Áo blouse tay phồng"],
+    "price": "Trung bình (400.000đ - 900.000đ)",
+    "url": "https://nosbyn.com/"
+  },
+  {
+    "name": "Cocosin",
+    "origin": "Việt Nam",
+    "style": "Hiện đại, công sở, quý phái",
+    "material": "Voan, lụa, kate",
+    "products": ["Đầm ôm", "Áo sơ mi", "Quần tây nữ", "Vest nữ"],
+    "price": "Trung bình - Cao cấp (600.000đ - 1.500.000đ)",
+    "url": "https://cocosin.vn/"
+  },
+  {
+    "name": "Canifa",
+    "origin": "Việt Nam",
+    "style": "Gia đình, thoải mái, tiện dụng",
+    "material": "Cotton, len, dệt kim",
+    "products": ["Áo khoác len", "Áo nỉ", "Quần dài", "Trang phục trẻ em"],
+    "price": "Phổ thông (200.000đ - 700.000đ)",
+    "url": "https://canifa.com/"
+  },
+  {
+    "name": "Routine",
+    "origin": "Việt Nam",
+    "style": "Unisex, trẻ trung, hơi hướng đường phố",
+    "material": "Denim, cotton, kaki",
+    "products": ["Áo sơ mi denim", "Quần jean", "Áo khoác bomber"],
+    "price": "Trung bình (400.000đ - 800.000đ)",
+    "url": "https://routine.vn/"
+  },
+  {
+    "name": "Elise",
+    "origin": "Việt Nam",
+    "style": "Sang trọng, thời thượng, công sở nữ",
+    "material": "Tweed, lụa, chiffon",
+    "products": ["Đầm dạ hội", "Vest nữ", "Chân váy bút chì"],
+    "price": "Cao cấp (1.000.000đ - 3.000.000đ)",
+    "url": "https://elise.vn/"
+  },
+  {
+    "name": "Zara",
+    "origin": "Quốc tế (Tây Ban Nha)",
+    "style": "Hiện đại, minimal, dễ phối",
+    "material": "Cotton, viscose, polyester",
+    "products": ["Áo sơ mi basic", "Áo blazer", "Chân váy mini"],
+    "price": "Trung bình (600.000đ - 1.500.000đ)",
+    "url": "https://www.zara.com/vn/"
+  },
+  {
+    "name": "H&M",
+    "origin": "Quốc tế (Thụy Điển)",
+    "style": "Trẻ trung, năng động, casual",
+    "material": "Denim, cotton, linen",
+    "products": ["Quần jean", "Áo phông", "Áo hoodie"],
+    "price": "Phổ thông (300.000đ - 800.000đ)",
+    "url": "https://www2.hm.com/"
+  },
+  {
+    "name": "Gucci",
+    "origin": "Cao cấp (Ý)",
+    "style": "Xa xỉ, phá cách, mang đậm cá tính",
+    "material": "Lụa, da thật, ren",
+    "products": ["Túi xách", "Giày cao gót", "Áo sơ mi họa tiết"],
+    "price": "Cao cấp (20.000.000đ+)",
+    "url": "https://www.gucci.com/"
+  }
+]
