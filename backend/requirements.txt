@@ -1,8 +1,0 @@
-Flask
-flask-cors
-flask-dance
-python-dotenv
-google-generativeai
-Pillow
-colorthief
-gunicorn
