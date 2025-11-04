@@ -221,6 +221,9 @@
       const sendBtn = document.getElementById("sendBtn");
       const quickOptions = document.getElementById("quickOptions");
       const userBar = document.getElementById("userBar");
+      const API_BASE = window.location.origin.includes("onrender.com")
+  ? "https://fashionai-backend.onrender.com"
+  : "http://127.0.0.1:5000";
 
       function appendMsg(who, text) {
         const d = document.createElement("div");
@@ -324,3 +327,4 @@
     </script>
   </body>
 </html>
+
