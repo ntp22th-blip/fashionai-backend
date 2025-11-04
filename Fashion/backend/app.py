@@ -13,7 +13,7 @@ app = Flask(__name__, static_folder="../frontend", template_folder="../frontend"
 CORS(app)
 
 # Cho phép Flask-Dance hoạt động trên môi trường Render (HTTPS)
-app.config["PREFERRED_URL_SCHEME"] = "https" 
+app.config["PREFERRED_URL_SCHEME"] = "https"
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 # Secret key cho session Flask
@@ -38,7 +38,7 @@ if GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET:
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
         scope=["profile", "email"],
-        redirect_to="google_login_success"
+        redirect_url="https://fashionai-backend.onrender.com/login/success"
     )
     app.register_blueprint(google_bp, url_prefix="/login")
     print("✅ Đã kích hoạt Google OAuth2 login")
@@ -204,5 +204,3 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     print(f"🌸 Fashion AI backend đang chạy trên cổng {port}")
     app.run(host="0.0.0.0", port=port)
-
-
