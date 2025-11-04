@@ -298,7 +298,7 @@
         try {
           analyzeBtn.disabled = true;
           status.textContent = "Đang phân tích...";
-          const res = await fetch("http://127.0.0.1:5000/analyze_image", {
+          const res = await fetch("https://fashionai-backend.onrender.com/analyze_image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ image: imgBase64 }),
@@ -336,3 +336,4 @@
     </script>
   </body>
 </html>
+
