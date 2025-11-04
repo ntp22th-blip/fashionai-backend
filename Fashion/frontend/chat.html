@@ -185,10 +185,8 @@
       const quickOptions = document.getElementById("quickOptions");
       const userBar = document.getElementById("userBar");
 
-      // ✅ Tự động chọn API backend (Render hoặc Local)
-      const API_BASE = window.location.origin.includes("onrender.com")
-  ? "https://fashionai-backend.onrender.com"
-  : "https://fashionai-backend.onrender.com";
+      // ✅ Dùng Render backend
+      const API_BASE = "https://fashionai-backend.onrender.com";
 
       function appendMsg(who, text) {
         const d = document.createElement("div");
@@ -214,17 +212,16 @@
         localStorage.setItem("chatHistory", JSON.stringify(history));
       }
 
-      // ✅ Dùng API_BASE thay vì localhost
       async function loginGoogle() {
         window.location.href = `${API_BASE}/login/google`;
       }
       async function logoutGoogle() {
-        await fetch(`${API_BASE}/logout`);
+        await fetch(`${API_BASE}/logout`, { credentials: "include" });
         localStorage.removeItem("chatHistory");
         location.reload();
       }
       async function loadUser() {
-        const res = await fetch(`${API_BASE}/user`);
+        const res = await fetch(`${API_BASE}/user`, { credentials: "include" });
         const user = await res.json();
         if (user && user.email) {
           userBar.innerHTML = `
@@ -256,6 +253,7 @@
           const res = await fetch(`${API_BASE}/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ message: txt, profile }),
           });
           const data = await res.json();
@@ -281,4 +279,3 @@
     </script>
   </body>
 </html>
-
