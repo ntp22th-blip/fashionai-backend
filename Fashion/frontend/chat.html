@@ -74,8 +74,6 @@
         color: #6b7280;
         font-size: 14px;
       }
-
-      /* Gợi ý nhanh */
       .options {
         display: flex;
         flex-wrap: wrap;
@@ -95,8 +93,6 @@
       .option:hover {
         background: #e0e7ff;
       }
-
-      /* Màu sắc hiển thị */
       .color-swatch {
         display: inline-flex;
         align-items: center;
@@ -113,31 +109,6 @@
         border-radius: 4px;
         border: 1px solid #ccc;
       }
-
-      /* Logo thương hiệu */
-      .brand-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 6px;
-      }
-      .brand {
-        background: #fff;
-        border-radius: 10px;
-        padding: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .brand img {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        object-fit: contain;
-      }
-
-      /* Thanh đăng nhập */
       .user-bar {
         display: flex;
         align-items: center;
@@ -184,18 +155,14 @@
         bạn để gợi ý outfit, phối màu và thương hiệu phù hợp ✨
       </p>
 
-      <!-- Thanh đăng nhập -->
       <div class="user-bar" id="userBar">
         <div class="user-info"><span>👤 Bạn chưa đăng nhập</span></div>
-        <button class="btn-login" onclick="loginGoogle()">
-          Đăng nhập Google
-        </button>
+        <button class="btn-login" onclick="loginGoogle()">Đăng nhập Google</button>
       </div>
 
       <div class="chat">
         <div id="history" class="history"></div>
 
-        <!-- Gợi ý nhanh -->
         <div class="options" id="quickOptions">
           <div class="option">🎄 Gợi ý outfit đi tiệc Noel</div>
           <div class="option">🏫 Mặc gì đi học với tone lạnh?</div>
@@ -205,11 +172,7 @@
         </div>
 
         <div class="input">
-          <input
-            id="inputMsg"
-            type="text"
-            placeholder="💬 Hỏi tôi: ví dụ — Mình có tone ấm, nên mặc gì đi làm?"
-          />
+          <input id="inputMsg" type="text" placeholder="💬 Hỏi tôi: ví dụ — Mình có tone ấm, nên mặc gì đi làm?" />
           <button id="sendBtn">Gửi</button>
         </div>
       </div>
@@ -221,9 +184,11 @@
       const sendBtn = document.getElementById("sendBtn");
       const quickOptions = document.getElementById("quickOptions");
       const userBar = document.getElementById("userBar");
-      const API_BASE = window.location.origin.includes("onrender.com")
-  ? "https://fashionai-backend.onrender.com"
-  : "http://127.0.0.1:5000";
+
+      // ✅ Tự động chọn API backend (Render hoặc Local)
+      const API_BASE = window.location.hostname.includes("onrender.com")
+        ? "https://fashionai-backend.onrender.com"
+        : "http://127.0.0.1:5000";
 
       function appendMsg(who, text) {
         const d = document.createElement("div");
@@ -238,28 +203,28 @@
         historyEl.scrollTop = historyEl.scrollHeight;
       }
 
-      // 🔹 Lưu & tải lịch sử chat
       function loadChatHistory() {
         const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
         history.forEach((m) => appendMsg(m.role, m.text));
       }
+
       function saveChat(role, text) {
         const history = JSON.parse(localStorage.getItem("chatHistory") || "[]");
         history.push({ role, text });
         localStorage.setItem("chatHistory", JSON.stringify(history));
       }
 
-      // 🔹 Xử lý đăng nhập Google
+      // ✅ Dùng API_BASE thay vì localhost
       async function loginGoogle() {
-        window.location.href = "http://127.0.0.1:5000/login/google";
+        window.location.href = `${API_BASE}/login/google`;
       }
       async function logoutGoogle() {
-        await fetch("http://127.0.0.1:5000/logout");
+        await fetch(`${API_BASE}/logout`);
         localStorage.removeItem("chatHistory");
         location.reload();
       }
       async function loadUser() {
-        const res = await fetch("http://127.0.0.1:5000/user");
+        const res = await fetch(`${API_BASE}/user`);
         const user = await res.json();
         if (user && user.email) {
           userBar.innerHTML = `
@@ -272,23 +237,13 @@
         }
       }
 
-      // 🔹 Lấy profile người dùng
       const profile = JSON.parse(localStorage.getItem("userProfile") || "{}");
       if (!profile.tone) {
-        appendMsg(
-          "bot",
-          "⚠️ Bạn chưa có hồ sơ cá nhân. Hãy vào trang **My Color Test** để tạo nhé 💅"
-        );
+        appendMsg("bot", "⚠️ Bạn chưa có hồ sơ cá nhân. Hãy vào trang **My Color Test** để tạo nhé 💅");
       } else {
-        appendMsg(
-          "bot",
-          `👋 Xin chào! Mình thấy bạn thuộc **${profile.tone}**, tone quiz **${
-            profile.undertone || "—"
-          }**. Hỏi mình bất cứ điều gì về phối đồ, phong cách hoặc brand nhé! 💫`
-        );
+        appendMsg("bot", `👋 Xin chào! Mình thấy bạn thuộc **${profile.tone}**, tone quiz **${profile.undertone || "—"}**.`);
       }
 
-      // 🔹 Gửi tin nhắn
       async function send() {
         const txt = inputEl.value.trim();
         if (!txt) return;
@@ -298,7 +253,7 @@
         appendMsg("bot", "🧠 <em>Đang tư duy phong cách...</em>");
 
         try {
-          const res = await fetch("http://127.0.0.1:5000/chat", {
+          const res = await fetch(`${API_BASE}/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: txt, profile }),
@@ -321,10 +276,8 @@
       sendBtn.addEventListener("click", send);
       inputEl.addEventListener("keypress", (e) => e.key === "Enter" && send());
 
-      // ✅ Khởi chạy
       loadUser();
       loadChatHistory();
     </script>
   </body>
 </html>
-
