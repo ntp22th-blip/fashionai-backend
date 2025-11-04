@@ -210,8 +210,7 @@
         <div class="card">
           <h3>💡 Motto</h3>
           <p id="motto">
-            "Thời trang là cách bạn thể hiện bản thân không cần nói gì." –
-            Chanel
+            "Thời trang là cách bạn thể hiện bản thân không cần nói gì." – Chanel
           </p>
         </div>
       </section>
@@ -221,8 +220,10 @@
       © 2025 Fashion AI — Ứng dụng AI tư vấn phong cách thời trang thông minh.
     </footer>
 
+    <!-- ====== SCRIPT CHUẨN CHO RENDER ====== -->
     <script>
-      /* ===== Helper: quản lý userProfile trong localStorage ===== */
+      const API_BASE = "https://fashionai-backend.onrender.com";
+
       function getLocalUser() {
         return JSON.parse(localStorage.getItem("userProfile") || "{}");
       }
@@ -246,22 +247,18 @@
         return merged;
       }
 
-      /* ===== Google Login ===== */
       async function loginGoogle() {
-        window.location.href = "http://127.0.0.1:5000/login/google";
+        window.location.href = `${API_BASE}/login/google`;
       }
       async function logoutGoogle() {
-        await fetch("http://127.0.0.1:5000/logout", { credentials: "include" });
+        await fetch(`${API_BASE}/logout`, { credentials: "include" });
         localStorage.removeItem("userProfile");
         location.reload();
       }
 
-      /* ===== Load User (Server + Local) ===== */
       async function loadUserAndSync() {
         try {
-          const res = await fetch("http://127.0.0.1:5000/user", {
-            credentials: "include",
-          });
+          const res = await fetch(`${API_BASE}/user`, { credentials: "include" });
           if (res.ok) {
             const serverUser = await res.json();
             if (serverUser && serverUser.email) {
@@ -271,44 +268,35 @@
                 <span>${merged.name || "User"}</span>
                 <button class="btn-login" onclick="logoutGoogle()">Đăng xuất</button>
               `;
-              document.getElementById("userName").textContent =
-                merged.name || "Người dùng";
-              document.getElementById("toneProfile").textContent =
-                merged.tone || "—";
-              document.getElementById("budgetProfile").textContent =
-                merged.budget || "—";
+              document.getElementById("userName").textContent = merged.name || "Người dùng";
+              document.getElementById("toneProfile").textContent = merged.tone || "—";
+              document.getElementById("budgetProfile").textContent = merged.budget || "—";
               return;
             }
           }
         } catch (e) {
           console.warn("Không thể đồng bộ user:", e);
         }
-        // fallback: local only
         loadProfile();
       }
 
-      /* ===== Load Profile từ LocalStorage ===== */
       function loadProfile() {
         const prof = getLocalUser();
         document.getElementById("toneProfile").textContent = prof.tone || "—";
-        document.getElementById("budgetProfile").textContent =
-          prof.budget || "—";
+        document.getElementById("budgetProfile").textContent = prof.budget || "—";
         if (prof.name) {
           document.getElementById("userName").textContent = prof.name;
           document.getElementById("userBox").innerHTML = `
-            <img src="${
-              prof.avatar || "https://s.gravatar.com/avatar?d=mp"
-            }" alt="avatar">
+            <img src="${prof.avatar || "https://s.gravatar.com/avatar?d=mp"}" alt="avatar">
             <span>${prof.name}</span>
             <button class="btn-login" onclick="logoutGoogle()">Đăng xuất</button>
           `;
         }
       }
 
-      /* ===== Load Brand List ===== */
       async function loadBrands() {
         try {
-          const res = await fetch("http://127.0.0.1:5000/brands");
+          const res = await fetch(`${API_BASE}/brands`);
           const data = await res.json();
           const ul = document.getElementById("brandList");
           ul.innerHTML = data
@@ -316,12 +304,10 @@
             .map((b) => `<li>${b.name || b.brand || "Thương hiệu"}</li>`)
             .join("");
         } catch {
-          document.getElementById("brandList").innerHTML =
-            "<li>Lỗi tải dữ liệu.</li>";
+          document.getElementById("brandList").innerHTML = "<li>Lỗi tải dữ liệu.</li>";
         }
       }
 
-      /* ===== Init ===== */
       loadUserAndSync();
       loadBrands();
     </script>
